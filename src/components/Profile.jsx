@@ -1,29 +1,24 @@
-import fotoCandidato from "../assets/fotoCandidato.jpg";
+import fotoCandidato from "../assets/fotoCandidato.jpg"; // ou a imagem web que estava usando
 
 export default function Profile() {
   return (
-    <div className="flex flex-col items-center pt-8 pb-4 px-4">
-      {/* Container da Foto com a bolinha verde de status */}
-      <div className="relative mb-4">
+    // Reduzimos o padding-top de pt-8 para pt-4
+    <div className="flex flex-col items-center pt-4 pb-3 px-4">
+      <div className="relative mb-3">
+        {/* Reduzimos de 88px para 72px */}
         <img
-          // Link de uma imagem genérica para testarmos o visual.
-          // Depois, você pode importar a foto real da pasta assets e colocar aqui!
           src={fotoCandidato}
           alt="Foto do Candidato"
-          className="w-[88px] h-[88px] rounded-full object-cover border border-gray-200 shadow-sm"
+          className="w-[72px] h-[72px] rounded-full object-cover border border-gray-200 shadow-sm"
         />
-        {/* Bolinha verde com borda branca para dar o efeito de sobreposição */}
-        <div className="absolute bottom-0 right-0 w-[22px] h-[22px] bg-[#10b981] border-[3px] border-white rounded-full"></div>
+        <div className="absolute bottom-0 right-0 w-[18px] h-[18px] bg-[#10b981] border-[2px] border-white rounded-full"></div>
       </div>
 
-      {/* Textos do Perfil */}
-      <h2 className="text-xl font-bold text-gray-900 mb-1.5">
+      <h2 className="text-[18px] font-bold text-gray-900 mb-1">
         Gabinete Digital
       </h2>
-      <p className="text-[15px] text-gray-500 text-center leading-snug px-6">
-        Representação oficial baseada em dados
-        <br />
-        reais do mandato.
+      <p className="text-[13px] text-gray-500 text-center leading-snug px-6">
+        Representação oficial baseada em dados reais do mandato.
       </p>
     </div>
   );

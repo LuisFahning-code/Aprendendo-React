@@ -1,12 +1,12 @@
 export default function TransparencyCard() {
   return (
-    // Container principal do card com fundo azul claro e bordas arredondadas
-    <div className="mx-4 mb-6 bg-[#f0f7ff] border border-[#d6e8ff] rounded-2xl p-4 flex gap-3 shadow-sm">
-      {/* Ícone de Informação */}
-      <div className="text-blue-600 mt-0.5 shrink-0">
+    // Reduzimos p-4 para p-3 e mb-6 para mb-4
+    <div className="mx-4 mb-4 bg-[#f0f7ff] border border-[#d6e8ff] rounded-xl p-3 flex gap-3 shadow-sm">
+      <div className="text-blue-600 shrink-0">
+        {/* Ícone um pouco menor */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className="h-5 w-5"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -20,14 +20,13 @@ export default function TransparencyCard() {
         </svg>
       </div>
 
-      {/* Textos */}
       <div>
-        <h3 className="text-[16px] font-bold text-blue-900 mb-1">
+        <h3 className="text-[15px] font-bold text-blue-900 mb-0.5">
           Aviso de Transparência
         </h3>
-        <p className="text-[14px] text-blue-800/90 leading-snug">
+        <p className="text-[13px] text-blue-800/90 leading-snug">
           Esta é uma persona digital interativa baseada nas propostas e
-          histórico do mandato do candidato.
+          histórico do mandato.
         </p>
       </div>
     </div>

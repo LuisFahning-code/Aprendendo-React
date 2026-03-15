@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function MessageInput({ onSendMessage }) {
   const [inputValue, setInputValue] = useState("");
+
+  // Referências para "conectar" os ícones visuais aos inputs de arquivo invisíveis
+  const attachRef = useRef(null);
+  const cameraRef = useRef(null);
+  const videoRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -11,12 +16,74 @@ export default function MessageInput({ onSendMessage }) {
     }
   };
 
+  // Função que é chamada quando o usuário seleciona um arquivo/tira foto
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Cria uma mensagem simulando o envio do anexo no chat
+      let tipo = "📎 Anexo";
+      if (file.type.startsWith("image/")) tipo = "📷 Imagem";
+      if (file.type.startsWith("video/")) tipo = "🎥 Vídeo";
+
+      onSendMessage(`${tipo}: ${file.name}`);
+      e.target.value = null; // Limpa o input para poder enviar o mesmo arquivo novamente
+    }
+  };
+
+  // Função que pega o GPS do usuário
+  const handleLocationClick = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude.toFixed(4);
+          const lng = position.coords.longitude.toFixed(4);
+          onSendMessage(`📍 Localização enviada: ${lat}, ${lng}`);
+        },
+        () => {
+          alert(
+            "Não foi possível acessar a localização. Verifique as permissões do seu navegador.",
+          );
+        },
+      );
+    } else {
+      alert("Seu navegador não suporta geolocalização.");
+    }
+  };
+
   return (
-    <div className="border-t border-gray-100 bg-white p-4 sticky bottom-0 pb-6">
-      {/* Nova Barra de Anexos */}
+    <div className="border-t border-gray-100 bg-white p-3 sticky bottom-0">
+      {/* Inputs originais do HTML escondidos (hidden) */}
+      <input
+        type="file"
+        ref={attachRef}
+        className="hidden"
+        onChange={handleFileChange}
+      />
+      {/* O atributo capture="environment" força o celular a abrir a câmera traseira em vez da galeria! */}
+      <input
+        type="file"
+        accept="image/*"
+        capture="environment"
+        ref={cameraRef}
+        className="hidden"
+        onChange={handleFileChange}
+      />
+      <input
+        type="file"
+        accept="video/*"
+        capture="environment"
+        ref={videoRef}
+        className="hidden"
+        onChange={handleFileChange}
+      />
+
       <div className="flex items-center gap-5 px-2 mb-3 text-[#64748b]">
-        <button type="button" className="hover:text-blue-700 transition-colors">
-          {/* Ícone de Adicionar (+) */}
+        {/* Adicionando onClick para acionar os inputs invisíveis */}
+        <button
+          type="button"
+          onClick={() => attachRef.current.click()}
+          className="hover:text-blue-700 transition-colors"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -30,8 +97,12 @@ export default function MessageInput({ onSendMessage }) {
             />
           </svg>
         </button>
-        <button type="button" className="hover:text-blue-700 transition-colors">
-          {/* Ícone de Câmera */}
+
+        <button
+          type="button"
+          onClick={() => cameraRef.current.click()}
+          className="hover:text-blue-700 transition-colors"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -46,8 +117,12 @@ export default function MessageInput({ onSendMessage }) {
             />
           </svg>
         </button>
-        <button type="button" className="hover:text-blue-700 transition-colors">
-          {/* Ícone de Vídeo */}
+
+        <button
+          type="button"
+          onClick={() => videoRef.current.click()}
+          className="hover:text-blue-700 transition-colors"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -58,14 +133,14 @@ export default function MessageInput({ onSendMessage }) {
           </svg>
         </button>
 
-        {/* Divisória vertical */}
         <div className="w-[1px] h-6 bg-gray-200 ml-1"></div>
 
+        {/* Adicionando onClick para o GPS */}
         <button
           type="button"
+          onClick={handleLocationClick}
           className="hover:text-blue-700 transition-colors ml-1"
         >
-          {/* Ícone de Localização */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
